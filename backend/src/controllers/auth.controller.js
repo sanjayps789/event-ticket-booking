@@ -28,7 +28,7 @@ export const register = asyncHandler(async (req, res) => {
 });
 
 export const login = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, role } = req.body;
 
   const user = await User.findOne({ email }).select("+password");
   if (!user) {
@@ -38,6 +38,13 @@ export const login = asyncHandler(async (req, res) => {
   const isMatch = await bcrypt.compare(password, user.password);
   if (!isMatch) {
     return res.status(401).json({ success: false, message: "Invalid credentials" });
+  }
+
+  if (role && user.role !== role) {
+    return res.status(403).json({
+      success: false,
+      message: `This account is registered as ${user.role}, not ${role}`,
+    });
   }
 
   const token = generateToken({ id: user._id, role: user.role });
