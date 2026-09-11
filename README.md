@@ -10,7 +10,7 @@ A full-stack MERN application where event Organizers can list and manage events,
 
 ## Live Links
 
-- **Frontend:** `https://event-ticket-booking-tan.vercel.app/login`
+- **Frontend:** `https://frontend-nine-kappa-8jjs32z2e4.vercel.app/login`
 - **Backend API Base URL:** `https://event-ticket-booking-x4ok.onrender.com/`
 - **GitHub Repository:** `https://github.com/sanjayps789/event-ticket-booking.git`
 
