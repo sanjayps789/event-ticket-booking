@@ -43,7 +43,7 @@ export const login = asyncHandler(async (req, res) => {
   if (role && user.role !== role) {
     return res.status(403).json({
       success: false,
-      message: `This account is registered as ${user.role}, not ${role}`,
+      message: `Invalid role selected for this account`,
     });
   }
 

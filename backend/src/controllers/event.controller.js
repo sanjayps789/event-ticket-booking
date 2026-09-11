@@ -2,7 +2,6 @@ import Event from "../models/event.model.js";
 import Booking from "../models/booking.model.js";
 import asyncHandler from "../utils/asyncHandler.js";
 
-// @desc   Create a new event (Organizer only)
 export const createEvent = asyncHandler(async (req, res) => {
   const { title, description, category, date, location, ticketPrice, totalTickets } = req.body;
 
@@ -32,14 +31,17 @@ export const getEvents = asyncHandler(async (req, res) => {
   const limit = Number(req.query.limit) || 10;
   const skip = (page - 1) * limit;
 
-  const filter = { date: { $gte: new Date() } };   // upcoming events only
+  const filter = { date: { $gte: new Date() } };
 
   if (category) {
     filter.category = category;
   }
 
   if (search) {
-    filter.$text = { $search: search };
+    filter.$or = [
+      { title: { $regex: search, $options: "i" } },
+      { description: { $regex: search, $options: "i" } },
+    ];
   }
 
   const totalEvents = await Event.countDocuments(filter);
@@ -60,7 +62,6 @@ export const getEvents = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc   Get single event by ID (Public)
 export const getEventById = asyncHandler(async (req, res) => {
   const event = await Event.findById(req.params.id).populate("organizer", "name email");
 
@@ -95,7 +96,6 @@ export const getMyEvents = asyncHandler(async (req, res) => {
   });
 });
 
-// @desc   Get attendee list for a specific event (Organizer only, own event)
 export const getAttendees = asyncHandler(async (req, res) => {
   const event = await Event.findById(req.params.id);
 

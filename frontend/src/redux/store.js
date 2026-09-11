@@ -12,13 +12,14 @@ import {
 import storageSession from "redux-persist/lib/storage/session";  
 
 import authReducer from "./slices/authSlice";
-// import eventReducer from "./slices/eventSlice";
-// import bookingReducer from "./slices/bookingSlice";
+import eventReducer from "./slices/eventSlice";
+import bookingReducer from "./slices/bookingSlice";
+
 
 const rootReducer = combineReducers({
   auth: authReducer,
-//   event: eventReducer,
-//   booking: bookingReducer,
+  event: eventReducer,
+  booking: bookingReducer,
 });
 
 const persistConfig = {
